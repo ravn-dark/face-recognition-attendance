@@ -50,6 +50,8 @@ Thumbs.db
 # Uploads (user data)
 static/uploads/*
 !static/uploads/.gitkeep
+static/faces/*
+!static/faces/.gitkeep
 
 # Logs
 *.log
