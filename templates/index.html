@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Automated Attendance System{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+        color: white;
+        padding: 5rem 2rem;
+        border-radius: 15px;
+        text-align: center;
+        margin: 2rem 0;
+        box-shadow: 0 10px 30px rgba(13, 110, 253, 0.3);
+    }
+    
+    .hero-section h1 {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-section .lead {
+        font-size: 1.5rem;
+        margin-bottom: 3rem;
+        opacity: 0.95;
+    }
+    
+    .feature-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        height: 100%;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        border-top: 4px solid var(--primary-blue);
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .feature-icon {
+        font-size: 3rem;
+        color: var(--primary-blue);
+        margin-bottom: 1rem;
+    }
+    
+    .feature-card h3 {
+        color: #212529;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+    
+    .feature-card p {
+        color: #6c757d;
+        margin-bottom: 0;
+    }
+    
+    .cta-section {
+        margin-top: 4rem;
+    }
+    
+    .btn-lg {
+        padding: 0.75rem 2.5rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 50px;
+    }
+    
+    @media (max-width: 768px) {
+        .hero-section {
+            padding: 3rem 1.5rem;
+        }
+        
+        .hero-section h1 {
+            font-size: 2.5rem;
+        }
+        
+        .hero-section .lead {
+            font-size: 1.2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <h1><i class="bi bi-camera-video-fill me-3"></i>Automated Attendance System</h1>
+    <p class="lead">Revolutionary Computer Vision Technology for Seamless Attendance Management</p>
+    <div class="cta-section">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-light btn-lg">
+            <i class="bi bi-speedometer2 me-2"></i>Go to Dashboard
+        </a>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="row g-4 my-5">
+    <div class="col-md-4">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="bi bi-camera-fill"></i>
+            </div>
+            <h3>Face Recognition</h3>
+            <p>Advanced facial recognition technology automatically identifies and marks student attendance with high accuracy and speed.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="bi bi-clock-history"></i>
+            </div>
+            <h3>Real-time Tracking</h3>
+            <p>Monitor attendance in real-time with instant updates and notifications. Get immediate insights into student presence.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="bi bi-graph-up-arrow"></i>
+            </div>
+            <h3>Analytics Dashboard</h3>
+            <p>Comprehensive reports and statistics to track attendance patterns, generate insights, and make data-driven decisions.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Additional Features -->
+<div class="row g-4 my-5">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3">
+                        <i class="bi bi-shield-check text-primary fs-4"></i>
+                    </div>
+                    <h4 class="mb-0">Secure & Reliable</h4>
+                </div>
+                <p class="text-muted mb-0">Your data is protected with industry-standard security measures and regular backups.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3">
+                        <i class="bi bi-device-hdd text-primary fs-4"></i>
+                    </div>
+                    <h4 class="mb-0">Easy Management</h4>
+                </div>
+                <p class="text-muted mb-0">Simple interface for managing students, viewing records, and exporting attendance data.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+═══════════════════════════════════════════════════════════════
+  NEXT STEPS: Install CMake to Enable Face Recognition
+═══════════════════════════════════════════════════════════════
+
+CURRENT STATUS:
+✅ Flask app is running (http://localhost:5000)
+✅ All core features work (student management, dashboard, etc.)
+❌ Face recognition disabled (needs CMake + dlib)
+
+═══════════════════════════════════════════════════════════════
+  OPTION 1: Quick Manual Installation (Recommended - 5 min)
+═══════════════════════════════════════════════════════════════
+
+1. Download CMake:
+   → Go to: https://cmake.org/download/
+   → Click: "Windows x64 Installer" (.msi file)
+
+2. Install CMake:
+   → Run the downloaded .msi file
+   → IMPORTANT: Check "Add CMake to system PATH" during install
+   → Complete the installation
+
+3. Restart VS Code:
+   → Close VS Code completely
+   → Reopen VS Code
+   → Open new terminal
+
+4. Verify CMake:
+   → Run: cmake --version
+   → Should show version number
+
+5. Install dlib and face-recognition:
+   → python -m pip install dlib
+   → python -m pip install face-recognition
+
+6. Restart Flask app:
+   → python app.py
+
+═══════════════════════════════════════════════════════════════
+  OPTION 2: Use PowerShell Script
+═══════════════════════════════════════════════════════════════
+
+1. Open PowerShell as Administrator:
+   → Press Win + X
+   → Select "Terminal (Admin)" or "PowerShell (Admin)"
+
+2. Navigate to project:
+   → cd C:\Users\Chhav\Desktop\system
+
+3. Run script:
+   → .\install_cmake.ps1
+
+4. Follow prompts (type Y when asked)
+
+5. Restart VS Code and continue from Step 4 above
+
+═══════════════════════════════════════════════════════════════
+  DETAILED GUIDES
+═══════════════════════════════════════════════════════════════
+
+For detailed instructions, see:
+  → QUICK_INSTALL.md (fastest method)
+  → INSTALL_CMAKE_STEPS.md (detailed troubleshooting)
+
+═══════════════════════════════════════════════════════════════
+  CURRENT APP STATUS
+═══════════════════════════════════════════════════════════════
+
+Your app is running at: http://localhost:5000
+
+You can use it now for:
+  ✅ Admin login
+  ✅ Student registration (without face encoding)
+  ✅ Student management
+  ✅ Dashboard and records
+  ❌ Face recognition attendance (needs CMake)
+
+═══════════════════════════════════════════════════════════════

@@ -1,0 +1,310 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Student - Automated Attendance System{% endblock %}
+
+{% block extra_css %}
+<style>
+    .edit-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .edit-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .edit-header h1 {
+        color: #212529;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    
+    .edit-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2.5rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: #212529;
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-control, .form-select {
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    }
+    
+    .current-photo-section {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    
+    .current-photo {
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .image-upload-area {
+        border: 2px dashed #dee2e6;
+        border-radius: 8px;
+        padding: 2rem;
+        text-align: center;
+        background-color: #f8f9fa;
+        transition: all 0.3s;
+        cursor: pointer;
+        margin-top: 1rem;
+    }
+    
+    .image-upload-area:hover {
+        border-color: #0d6efd;
+        background-color: #e7f1ff;
+    }
+    
+    .image-upload-area.dragover {
+        border-color: #0d6efd;
+        background-color: #e7f1ff;
+    }
+    
+    .image-preview {
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 8px;
+        margin-top: 1rem;
+        display: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .image-preview.show {
+        display: block;
+        margin: 1rem auto 0;
+    }
+    
+    .upload-icon {
+        font-size: 3rem;
+        color: #0d6efd;
+        margin-bottom: 1rem;
+    }
+    
+    .btn-submit {
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        border-radius: 8px;
+    }
+    
+    .required-field {
+        color: #dc3545;
+    }
+    
+    .info-box {
+        background: #e7f1ff;
+        border-left: 4px solid #0d6efd;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="edit-container">
+    <div class="edit-header">
+        <h1><i class="bi bi-pencil-square me-2"></i>Edit Student</h1>
+        <p class="text-muted">Update student information and face image</p>
+    </div>
+    
+    <div class="edit-card">
+        <!-- Current Photo Section -->
+        <div class="current-photo-section">
+            <h5 class="mb-3">Current Face Image</h5>
+            {% set face_extensions = ['jpg', 'jpeg', 'png', 'gif'] %}
+            {% set face_found = false %}
+            {% for ext in face_extensions %}
+                {% if not face_found %}
+                    <img src="{{ url_for('static', filename='faces/' + student.student_id + '.' + ext) }}" 
+                         class="current-photo" 
+                         alt="Current photo"
+                         id="currentPhoto"
+                         onerror="this.style.display='none'; document.getElementById('noPhotoMsg').style.display='block';">
+                {% endif %}
+            {% endfor %}
+            <div id="noPhotoMsg" style="display: none;">
+                <i class="bi bi-image" style="font-size: 4rem; color: #6c757d; opacity: 0.5;"></i>
+                <p class="text-muted mt-2">No face image registered</p>
+            </div>
+        </div>
+        
+        <form method="POST" action="{{ url_for('edit_student', student_id=student.student_id) }}" enctype="multipart/form-data" id="editForm">
+            <!-- Student ID (Read-only) -->
+            <div class="mb-4">
+                <label for="student_id" class="form-label">Student ID</label>
+                <input type="text" 
+                       class="form-control" 
+                       id="student_id" 
+                       value="{{ student.student_id }}" 
+                       readonly
+                       style="background-color: #e9ecef;">
+                <div class="form-text">Student ID cannot be changed</div>
+            </div>
+            
+            <!-- Name -->
+            <div class="mb-4">
+                <label for="name" class="form-label">
+                    Full Name <span class="required-field">*</span>
+                </label>
+                <input type="text" 
+                       class="form-control" 
+                       id="name" 
+                       name="name" 
+                       value="{{ student.name }}"
+                       required
+                       placeholder="Enter student's full name">
+            </div>
+            
+            <!-- Email -->
+            <div class="mb-4">
+                <label for="email" class="form-label">
+                    Email Address <span class="required-field">*</span>
+                </label>
+                <input type="email" 
+                       class="form-control" 
+                       id="email" 
+                       name="email" 
+                       value="{{ student.email }}"
+                       required
+                       placeholder="student@example.com">
+            </div>
+            
+            <!-- Course -->
+            <div class="mb-4">
+                <label for="course" class="form-label">Course</label>
+                <input type="text" 
+                       class="form-control" 
+                       id="course" 
+                       name="course" 
+                       value="{{ student.course or '' }}"
+                       placeholder="Enter course name (optional)">
+            </div>
+            
+            <!-- Retake Face Image -->
+            <div class="mb-4">
+                <label for="face_image" class="form-label">
+                    Retake Face Image <span class="text-muted">(Optional)</span>
+                </label>
+                <div class="info-box">
+                    <p class="mb-0"><i class="bi bi-info-circle me-2"></i><strong>Note:</strong> Upload a new face image to update the face encoding. Leave empty to keep the current image.</p>
+                </div>
+                <div class="image-upload-area" id="uploadArea">
+                    <input type="file" 
+                           class="form-control d-none" 
+                           id="face_image" 
+                           name="face_image" 
+                           accept="image/*">
+                    <i class="bi bi-cloud-upload upload-icon"></i>
+                    <p class="mb-2"><strong>Click to upload</strong> or drag and drop</p>
+                    <p class="text-muted mb-0">PNG, JPG, JPEG up to 5MB</p>
+                </div>
+                <img id="imagePreview" class="image-preview" alt="Preview">
+                <div class="form-text mt-2">Upload a clear front-facing photo of the student</div>
+            </div>
+            
+            <!-- Submit Buttons -->
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary btn-submit">
+                    <i class="bi bi-check-circle me-2"></i>Update Student
+                </button>
+                <a href="{{ url_for('students') }}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-2"></i>Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('face_image');
+        const imagePreview = document.getElementById('imagePreview');
+        const form = document.getElementById('editForm');
+        
+        // Click to upload
+        uploadArea.addEventListener('click', function() {
+            fileInput.click();
+        });
+        
+        // File input change
+        fileInput.addEventListener('change', function(e) {
+            handleFileSelect(e.target.files[0]);
+        });
+        
+        // Drag and drop
+        uploadArea.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', function() {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', function(e) {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                fileInput.files = files;
+                handleFileSelect(files[0]);
+            }
+        });
+        
+        // Handle file selection
+        function handleFileSelect(file) {
+            if (file) {
+                // Validate file type
+                if (!file.type.startsWith('image/')) {
+                    alert('Please select an image file');
+                    return;
+                }
+                
+                // Validate file size (5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('File size must be less than 5MB');
+                    return;
+                }
+                
+                // Show preview
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.classList.add('show');
+                    // Hide current photo when new one is selected
+                    const currentPhoto = document.getElementById('currentPhoto');
+                    if (currentPhoto) {
+                        currentPhoto.style.display = 'none';
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
+</script>
+{% endblock %}

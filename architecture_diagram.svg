@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1600" height="1000" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1600" height="1000" fill="#ffffff"/>
+  
+  <!-- Title -->
+  <text x="800" y="50" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#212529">
+    Automated Attendance System Using Computer Vision
+  </text>
+  
+  <!-- Section Labels -->
+  <text x="150" y="120" font-family="Arial, sans-serif" font-size="12" font-weight="bold" font-style="italic" text-anchor="middle" fill="#0d6efd">INPUT</text>
+  <text x="450" y="120" font-family="Arial, sans-serif" font-size="12" font-weight="bold" font-style="italic" text-anchor="middle" fill="#0d6efd">PROCESSING</text>
+  <text x="800" y="120" font-family="Arial, sans-serif" font-size="12" font-weight="bold" font-style="italic" text-anchor="middle" fill="#28a745">STORAGE</text>
+  <text x="1150" y="120" font-family="Arial, sans-serif" font-size="12" font-weight="bold" font-style="italic" text-anchor="middle" fill="#0d6efd">RECOGNITION</text>
+  <text x="1450" y="120" font-family="Arial, sans-serif" font-size="12" font-weight="bold" font-style="italic" text-anchor="middle" fill="#ffc107">INTERFACE</text>
+  <text x="800" y="950" font-family="Arial, sans-serif" font-size="12" font-weight="bold" font-style="italic" text-anchor="middle" fill="#dc3545">OUTPUT</text>
+  
+  <!-- Camera Module -->
+  <rect x="50" y="200" width="200" height="120" rx="5" fill="#e7f1ff" stroke="#0d6efd" stroke-width="2"/>
+  <text x="150" y="230" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#212529">Camera Module</text>
+  <text x="150" y="255" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#212529">Captures live</text>
+  <text x="150" y="275" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#212529">video frames</text>
+  
+  <!-- Face Detection Module -->
+  <rect x="350" y="200" width="200" height="120" rx="5" fill="#e7f1ff" stroke="#0d6efd" stroke-width="2"/>
+  <text x="450" y="230" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#212529">Face Detection</text>
+  <text x="450" y="255" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#212529">Module (OpenCV)</text>
+  
+  <!-- Face Encoding Module -->
+  <rect x="350" y="400" width="200" height="120" rx="5" fill="#e7f1ff" stroke="#0d6efd" stroke-width="2"/>
+  <text x="450" y="430" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#212529">Face Encoding</text>
+  <text x="450" y="455" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#212529">Module</text>
+  <text x="450" y="480" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#212529">(face_recognition)</text>
+  <text x="450" y="500" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#6c757d">128-dim encodings</text>
+  
+  <!-- SQLite Database -->
+  <rect x="700" y="350" width="200" height="300" rx="5" fill="#d4edda" stroke="#28a745" stroke-width="2"/>
+  <text x="800" y="380" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#212529">SQLite Database</text>
+  <text x="800" y="410" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#212529">• Student Details</text>
+  <text x="800" y="435" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#212529">• Face Encodings</text>
+  <text x="800" y="460" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#212529">• Attendance Logs</text>
+  <text x="800" y="480" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#6c757d">(student_id, timestamp,</text>
+  <text x="800" y="495" font-family="Arial, sans-serif" font-size="10" text-anchor="middle" fill="#6c757d">confidence_score)</text>
+  
+  <!-- Face Recognition Module -->
+  <rect x="1050" y="200" width="200" height="120" rx="5" fill="#e7f1ff" stroke="#0d6efd" stroke-width="2"/>
+  <text x="1150" y="230" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#212529">Face Recognition</text>
+  <text x="1150" y="255" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#212529">Module</text>
+  <text x="1150" y="280" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#212529">Compares encodings</text>
+  <text x="1150" y="300" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#212529">Distance threshold</text>
+  
+  <!-- Attendance Manager -->
+  <rect x="1050" y="400" width="200" height="120" rx="5" fill="#e7f1ff" stroke="#0d6efd" stroke-width="2"/>
+  <text x="1150" y="430" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#212529">Attendance Manager</text>
+  <text x="1150" y="460" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#212529">• Mark attendance</text>
+  <text x="1150" y="480" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#212529">• Prevent duplicates</text>
+  <text x="1150" y="500" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#212529">• Store to database</text>
+  
+  <!-- Flask Web Application -->
+  <rect x="1350" y="300" width="200" height="400" rx="5" fill="#fff3cd" stroke="#ffc107" stroke-width="2"/>
+  <text x="1450" y="330" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#212529">Flask Web</text>
+  <text x="1450" y="355" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#212529">Application</text>
+  <text x="1450" y="390" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#212529">• Student Registration</text>
+  <text x="1450" y="415" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#212529">• Take Attendance Page</text>
+  <text x="1450" y="440" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#212529">• Attendance Records</text>
+  <text x="1450" y="465" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#212529">• Admin Dashboard</text>
+  
+  <!-- Output Section -->
+  <rect x="500" y="800" width="600" height="150" rx="5" fill="#f8d7da" stroke="#dc3545" stroke-width="2"/>
+  <text x="800" y="840" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" fill="#212529">Output Section</text>
+  <text x="800" y="870" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#212529">• Attendance Table</text>
+  <text x="800" y="895" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#212529">• Visual Dashboard</text>
+  <text x="800" y="920" font-family="Arial, sans-serif" font-size="11" text-anchor="middle" fill="#212529">• Analytics Reports</text>
+  
+  <!-- Arrows -->
+  <!-- Camera → Face Detection -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#0d6efd"/>
+    </marker>
+  </defs>
+  
+  <line x1="250" y1="260" x2="350" y2="260" stroke="#0d6efd" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="300" y="250" font-family="Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle" fill="#0d6efd">Video Frames</text>
+  
+  <!-- Face Detection → Face Encoding -->
+  <line x1="450" y1="320" x2="450" y2="400" stroke="#0d6efd" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="470" y="360" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#0d6efd">Detected Faces</text>
+  
+  <!-- Face Encoding → Face Recognition -->
+  <line x1="550" y1="460" x2="1050" y2="260" stroke="#0d6efd" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="800" y="340" font-family="Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle" fill="#0d6efd">Face Encodings</text>
+  
+  <!-- Database ↔ Face Recognition (bidirectional) -->
+  <line x1="900" y1="450" x2="1050" y2="280" stroke="#28a745" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+  <line x1="1050" y1="260" x2="900" y2="440" stroke="#28a745" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+  <text x="975" y="350" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#28a745">Compare</text>
+  
+  <!-- Face Recognition → Attendance Manager -->
+  <line x1="1150" y1="320" x2="1150" y2="400" stroke="#0d6efd" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="1170" y="360" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#0d6efd">Match Result</text>
+  
+  <!-- Attendance Manager → Database -->
+  <line x1="1050" y1="460" x2="900" y2="500" stroke="#28a745" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+  <text x="975" y="480" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#28a745">Store</text>
+  
+  <!-- Attendance Manager → Web Application -->
+  <line x1="1250" y1="460" x2="1350" y2="500" stroke="#0d6efd" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="1300" y="480" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#0d6efd">Update</text>
+  
+  <!-- Web Application → Output -->
+  <line x1="1450" y1="700" x2="1100" y2="800" stroke="#dc3545" stroke-width="3" marker-end="url(#arrowhead)"/>
+  <text x="1275" y="750" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#dc3545">Display</text>
+  
+  <!-- Database → Output -->
+  <line x1="850" y1="650" x2="800" y2="800" stroke="#28a745" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+  <text x="825" y="725" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#28a745">Query</text>
+  
+  <!-- Legend -->
+  <rect x="50" y="50" width="200" height="100" rx="5" fill="#ffffff" stroke="#dee2e6" stroke-width="1"/>
+  <text x="150" y="70" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#212529">Legend</text>
+  <rect x="70" y="80" width="15" height="15" fill="#e7f1ff" stroke="#0d6efd" stroke-width="1"/>
+  <text x="90" y="92" font-family="Arial, sans-serif" font-size="10" fill="#212529">Processing Module</text>
+  <rect x="70" y="100" width="15" height="15" fill="#d4edda" stroke="#28a745" stroke-width="1"/>
+  <text x="90" y="112" font-family="Arial, sans-serif" font-size="10" fill="#212529">Database</text>
+  <rect x="70" y="120" width="15" height="15" fill="#fff3cd" stroke="#ffc107" stroke-width="1"/>
+  <text x="90" y="132" font-family="Arial, sans-serif" font-size="10" fill="#212529">Web Application</text>
+  <rect x="70" y="140" width="15" height="15" fill="#f8d7da" stroke="#dc3545" stroke-width="1"/>
+  <text x="90" y="152" font-family="Arial, sans-serif" font-size="10" fill="#212529">Output</text>
+</svg>

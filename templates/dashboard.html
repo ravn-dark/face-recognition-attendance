@@ -1,0 +1,411 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Automated Attendance System{% endblock %}
+
+{% block extra_css %}
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<style>
+    .dashboard-header {
+        margin-bottom: 2rem;
+    }
+    
+    .dashboard-header h1 {
+        color: #212529;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    
+    .stat-card {
+        background: white;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        border-left: 4px solid #0d6efd;
+        height: 100%;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .stat-card.success {
+        border-left-color: #28a745;
+    }
+    
+    .stat-card.warning {
+        border-left-color: #ffc107;
+    }
+    
+    .stat-icon {
+        font-size: 2.5rem;
+        color: #0d6efd;
+        margin-bottom: 1rem;
+    }
+    
+    .stat-card.success .stat-icon {
+        color: #28a745;
+    }
+    
+    .stat-card.warning .stat-icon {
+        color: #ffc107;
+    }
+    
+    .stat-card h5 {
+        color: #6c757d;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #212529;
+        margin-bottom: 0;
+    }
+    
+    .content-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        margin-top: 2rem;
+    }
+    
+    .content-card h2 {
+        color: #212529;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #e9ecef;
+    }
+    
+    .chart-container {
+        position: relative;
+        height: 400px;
+        margin-top: 1rem;
+    }
+    
+    .table-responsive {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .table thead {
+        background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+        color: white;
+    }
+    
+    .table thead th {
+        border: none;
+        font-weight: 600;
+        padding: 1rem;
+    }
+    
+    .table tbody td {
+        padding: 1rem;
+        vertical-align: middle;
+    }
+    
+    .badge {
+        padding: 0.5rem 0.75rem;
+        font-weight: 500;
+        font-size: 0.85rem;
+    }
+    
+    .badge-success {
+        background-color: #28a745;
+        color: white;
+    }
+    
+    .badge-info {
+        background-color: #17a2b8;
+        color: white;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 3rem 2rem;
+        color: #6c757d;
+    }
+    
+    .empty-state i {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Dashboard Header -->
+<div class="dashboard-header">
+    <h1><i class="bi bi-speedometer2 me-2"></i>Admin Dashboard</h1>
+    <p class="text-muted">Monitor and manage student attendance in real-time</p>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="bi bi-people-fill"></i>
+            </div>
+            <h5>Total Students</h5>
+            <p class="stat-number">{{ total_students }}</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card success">
+            <div class="stat-icon">
+                <i class="bi bi-calendar-check-fill"></i>
+            </div>
+            <h5>Today's Attendance</h5>
+            <p class="stat-number">{{ today_count }}</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card warning">
+            <div class="stat-icon">
+                <i class="bi bi-graph-up-arrow"></i>
+            </div>
+            <h5>Attendance Rate</h5>
+            <p class="stat-number">{{ attendance_rate }}%</p>
+        </div>
+    </div>
+</div>
+
+<!-- Date-wise Attendance Chart -->
+<div class="content-card">
+    <h2><i class="bi bi-bar-chart-fill me-2"></i>Date-wise Attendance (Last 30 Days)</h2>
+    <div class="chart-container">
+        <canvas id="attendanceChart"></canvas>
+    </div>
+</div>
+
+<!-- Recent Attendance Records -->
+<div class="content-card">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0"><i class="bi bi-clock-history me-2"></i>Recent Attendance Records</h2>
+        <a href="{{ url_for('attendance_records') }}" class="btn btn-primary">
+            <i class="bi bi-calendar-check me-1"></i>View All Records
+        </a>
+    </div>
+    
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Method</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if recent_records %}
+                    {% for record in recent_records %}
+                    <tr>
+                        <td><strong>{{ record.student_identifier }}</strong></td>
+                        <td>{{ record.name }}</td>
+                        <td>{{ record.date }}</td>
+                        <td>{{ record.time }}</td>
+                        <td>
+                            {% if record.status == 'present' %}
+                                <span class="badge badge-success">Present</span>
+                            {% elif record.status == 'absent' %}
+                                <span class="badge badge-danger">Absent</span>
+                            {% elif record.status == 'late' %}
+                                <span class="badge badge-warning">Late</span>
+                            {% else %}
+                                <span class="badge badge-info">{{ record.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if record.method == 'face_recognition' %}
+                                <span class="badge badge-info">
+                                    <i class="bi bi-camera-fill me-1"></i>Face Recognition
+                                </span>
+                            {% else %}
+                                <span class="badge badge-secondary">{{ record.method }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6">
+                            <div class="empty-state">
+                                <i class="bi bi-inbox"></i>
+                                <p class="mb-0">No attendance records found. Records will appear here once attendance is marked.</p>
+                            </div>
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row g-4 mt-4">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+                <h5 class="card-title mb-3">
+                    <i class="bi bi-camera-fill text-primary me-2"></i>Take Attendance
+                </h5>
+                <p class="card-text text-muted">Use face recognition to mark attendance for students.</p>
+                <a href="{{ url_for('take_attendance') }}" class="btn btn-primary">
+                    <i class="bi bi-camera me-1"></i>Start Camera
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+                <h5 class="card-title mb-3">
+                    <i class="bi bi-person-plus-fill text-primary me-2"></i>Register New Student
+                </h5>
+                <p class="card-text text-muted">Add a new student to the system for attendance tracking.</p>
+                <a href="{{ url_for('register') }}" class="btn btn-outline-primary">
+                    <i class="bi bi-plus-circle me-1"></i>Add Student
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Auto-hide flash messages after 5 seconds
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(function(alert) {
+            setTimeout(function() {
+                const bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            }, 5000);
+        });
+        
+        // Chart.js configuration
+        const ctx = document.getElementById('attendanceChart');
+        
+        if (ctx) {
+            const chartData = {
+                labels: {{ chart_labels|tojson }},
+                datasets: [{
+                    label: 'Attendance Count',
+                    data: {{ chart_data|tojson }},
+                    backgroundColor: 'rgba(13, 110, 253, 0.2)',
+                    borderColor: 'rgba(13, 110, 253, 1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: 'rgba(13, 110, 253, 1)',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            };
+            
+            const config = {
+                type: 'line',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                padding: 20
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            padding: 12,
+                            titleFont: {
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            bodyFont: {
+                                size: 13
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Attendance: ' + context.parsed.y + ' student(s)';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,
+                                font: {
+                                    size: 12
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Number of Students',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: {
+                                    size: 11
+                                },
+                                maxRotation: 45,
+                                minRotation: 45
+                            },
+                            grid: {
+                                display: false
+                            },
+                            title: {
+                                display: true,
+                                text: 'Date',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            };
+            
+            new Chart(ctx, config);
+        }
+    });
+</script>
+{% endblock %}
